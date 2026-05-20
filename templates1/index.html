@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moji zapiski</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div>
+    <div class="container">
+        <div>
+            <h1>Moji zapiski</h1>
+
+            <a href="/add">
+                <button>Dodaj zapisek</button>
+            </a>
+            
+            <a href="/logout">
+                <button>Logout</button>
+            </a>
+
+
+            <div class="notes">
+
+                {% for note in notes %}
+
+                <div class="note" id="note-{{ note.id }}">
+
+                    <h2>{{ note.title }}</h2>
+
+                    <p>{{ note.content }}</p>
+
+                    <button onclick="deleteNote({{ note.id }})">
+                        Izbriši
+                    </button>
+
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+    </div>
+
+    <script>
+        function deleteNote(id) {
+
+            fetch(`/delete/${id}`, {
+                method: "POST"
+            })
+                .then(response => response.json())
+                .then(data => {
+
+                    if (data.status === "success") {
+                        document.getElementById(`note-${id}`).remove();
+                    }
+
+                });
+
+        }
+    </script>
+
+</body>
+
+</html>

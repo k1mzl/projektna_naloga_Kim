@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodaj zapisek</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Dodaj zapisek</h1>
+
+        <form method="POST">
+
+            <input type="text" name="title" placeholder="Naslov" required>
+
+            <textarea name="content" placeholder="Vsebina zapiska" required></textarea>
+
+            <button type="submit">Shrani</button>
+
+        </form>
+
+        <a href="/">
+            <button>Nazaj</button>
+        </a>
+
+    </div>
+
+</body>
+</html>

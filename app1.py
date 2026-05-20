@@ -1,38 +1,41 @@
+import os
 from flask import Flask, render_template,request,redirect,session,jsonify
-from flask_sqlalchemy import SQLAlhemy
+from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__,template_folder="templates1",static_folder="static1")
 app.secret_key="skrivniključ"
 
 # nastavim povezavo do SQLite baze
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/notes.db"
+basedir = os.path.abspath(os.path.dirname(__file__))
+db_path = os.path.join(basedir, "db", "notes.db")
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 
-#Flask aplikacijo povezemo z SQLA1chemy
-db=SQLA1chemy(app)
+#Flask aplikacijo povežemo z SQLAlchemy
+db = SQLAlchemy(app)
 
 class User(db.Model):
-    #ID uporabnika
-    id=db.Column(db.integer,primary_key=True)
+    # ID uporabnika
+    id = db.Column(db.Integer, primary_key=True)
 
-    #Uporabniško ime
-    username=db.Column(db-String(100),unique=True,nullable=False)
+    # Uporabniško ime
+    username = db.Column(db.String(100), unique=True, nullable=False)
 
-    #Geslo
-    password=db.Column(db.String(200),nullable=False)
+    # Geslo
+    password = db.Column(db.String(200), nullable=False)
 
 
 class Note(db.Model):
-    #ID zapiska
-    id=db.Column(db.integer,primary_key=True)
+    # ID zapiska
+    id = db.Column(db.Integer, primary_key=True)
 
-    #Naslov zapiska
-    title=db.Column(db.String(200),nullable=False)
+    # Naslov zapiska
+    title = db.Column(db.String(200), nullable=False)
 
-    #Vsebina zapiska
-    content=db.Column(db.Text,nullable=False)
+    # Vsebina zapiska
+    content = db.Column(db.Text, nullable=False)
 
     #ID uporabnika(lastnik zapiska)
 
@@ -52,7 +55,10 @@ def register():
         #dobimo podatke iz obrazca
         username=request.form["username"]
         password=request.form["password"]
+        existing_user = User.query.filter_by(username=username).first()
 
+        if existing_user:
+            return "Uporabniško ime že obstaja"
         #hashiramo geslo
         hashed_password=generate_password_hash(password)
 
@@ -151,4 +157,6 @@ def add_note():
     return render_template("add_note.html")      
 
 if __name__ == "__main__":
+
+
     app.run(debug=True)
