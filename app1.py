@@ -7,9 +7,8 @@ app = Flask(__name__,template_folder="templates1",static_folder="static1")
 app.secret_key="skrivniključ"
 
 # nastavim povezavo do SQLite baze
-basedir = os.path.abspath(os.path.dirname(__file__))
-db_path = os.path.join(basedir, "db", "notes.db")
-app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///notes.db"
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 
@@ -158,5 +157,7 @@ def add_note():
 
 if __name__ == "__main__":
 
+    with app.app_context():
+        db.create_all()
 
     app.run(debug=True)
