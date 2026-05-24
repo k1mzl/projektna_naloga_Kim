@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="sl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Socialna Aplikacija</title>
+</head>
+
+<body>
+
+    <h1>Objave</h1>
+    <a href="/add">
+        <button>
+            Nova objava
+        </button>
+    </a>
+
+
+    <a href="/logout">
+        <button>
+            Logout
+        </button>
+    </a>
+
+    <hr>
+    {% for post in posts %}
+
+    </hr>
+
+    <div>
+
+        <p>{{ post.content }}</p>
+
+        {% if post.image %}    
+
+        <img src="{{ url_for('static', filename='uploads/' + post.image) }}"
+             width="300">
+
+        {% endif %}
+
+    </div>
+    
+    <hr>
+
+    {% endfor %}
+
+</body>
+</html>
