@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="sl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ToDo</title>
+</head>
+
+<body>
+
+    <h1>ToDo Lista</h1>
+
+    <a href="/add">
+        <button>
+            Dodaj task
+        </button>
+    </a>
+
+    <hr>
+
+    {% for task in tasks %}
+
+    <div id="task-{{ task.id }}">
+
+        <p>{{ task.text }}</p>
+
+        <a href="/delete/{{ task.id }}">
+            <button>
+                Izbrisi
+            </button>
+        </a>
+
+    </div>
+
+    <hr>
+
+    {% endfor %}
+
+
+</body>
+
+</html>
