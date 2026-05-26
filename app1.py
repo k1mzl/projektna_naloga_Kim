@@ -153,7 +153,22 @@ def add_note():
 
         return redirect("/")
 
-    return render_template("add_note.html")      
+    return render_template("add_note.html")   
+
+
+@app.route("/delete/<int:id>", methods=["POST"])
+def delete_note(id):
+
+    note=Note.query.get_or_404(id)
+
+    db.session.delete(note)
+
+    db.session.commit()
+
+    return jsonify({
+        "status":"success"
+    })
+
 
 if __name__ == "__main__":
 

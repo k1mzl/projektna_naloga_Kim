@@ -39,6 +39,7 @@
 
                 </div>
             </div>
+        <hr>
         {% endfor %}
 
     </div>
@@ -48,14 +49,14 @@
     <script>
         function deleteNote(id) {
 
-            fetch(`/delete/${id}`, {
+            fetch("/delete/" + id, {
                 method: "POST"
             })
                 .then(response => response.json())
                 .then(data => {
 
                     if (data.status === "success") {
-                        document.getElementById(`note-${id}`).remove();
+                        document.getElementById("note-"+id).remove()
                     }
 
                 });
